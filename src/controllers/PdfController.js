@@ -3,7 +3,8 @@ const PDF = require('../models/pdf');
 // Create
 exports.createPDF = async (req, res) => {
   try {
-    const pdf = await PDF.create(req.body);
+    const { title, filename, courseId, url } = req.body;
+    const pdf = await PDF.create({ title, filename, courseId, url });
     res.status(201).json(pdf);
   } catch (err) {
     res.status(400).json({ error: err.message });
@@ -34,7 +35,12 @@ exports.getPDF = async (req, res) => {
 // Update
 exports.updatePDF = async (req, res) => {
   try {
-    const pdf = await PDF.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    const { title, filename, courseId, url } = req.body;
+    const pdf = await PDF.findByIdAndUpdate(
+      req.params.id,
+      { title, filename, courseId, url },
+      { new: true, runValidators: true }
+    );
     res.json(pdf);
   } catch (err) {
     res.status(400).json({ error: err.message });
