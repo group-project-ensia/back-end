@@ -1,39 +1,44 @@
 ### Create Chat
-# POST http://localhost:5000/api/chats
-# Content-Type: application/json
+POST http://localhost:5000/api/chats
+Content-Type: application/json
 
-# {
-#   "courseId": "{{courseId}}",
-#   "messages": [
-#     {
-#       "role": "user",
-#       "content": "What is integration?"
-#     },
-#     {
-#       "role": "assistant",
-#       "content": "Integration is the inverse of differentiation..."
-#     }
-#   ]
-# }
+{
+  "courseId": "67f44b53f0db698b1023c192",
+  "messages": [
+    {
+      "sender": "user",
+      "text": "What is integration?"
+    },
+    {
+      "sender": "bot",
+      "text": "Integration is the inverse of differentiation..."
+    }
+  ]
+}
+
+
 
 ### Get All Chats
 GET http://localhost:5000/api/chats
 
-# ### Get One Chat
-# GET http://localhost:5000/api/chats/{{chatId}}
+### Get One Chat
+GET http://localhost:5000/api/chats/67f45327ba79d73170e85102
 
-# ### Update Chat
-# PUT http://localhost:5000/api/chats/{{chatId}}
-# Content-Type: application/json
+### Update Chat (Append a message)
+### Append new message to Chat
+PUT http://localhost:5000/api/chats/67f45327ba79d73170e85102
+Content-Type: application/json
 
-# {
-#   "messages": [
-#     {
-#       "role": "user",
-#       "content": "Explain integral in simple terms"
-#     }
-#   ]
-# }
+{
+  "messages": [
+    {
+      "sender": "user",
+      "text": "Explain again please"
+    }
+  ]
+}
 
-# ### Delete Chat
-# DELETE http://localhost:5000/api/chats/{{chatId}}
+
+
+### Delete Chat
+DELETE http://localhost:5000/api/chats/67f452feba79d73170e850fe
