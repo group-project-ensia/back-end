@@ -1,0 +1,25 @@
+### Create User
+POST http://localhost:5000/api/users
+Content-Type: application/json
+
+{
+  "name": "Nesrine2",
+  "email": "nesrine2@example.com"
+}
+
+### Get All Users
+GET http://localhost:5000/api/users
+
+# ### Get One User
+# GET http://localhost:5000/api/users/{{userId}}
+
+# ### Update User
+# PUT http://localhost:5000/api/users/{{userId}}
+# Content-Type: application/json
+
+# {
+#   "name": "Nesrine B."
+# }
+
+# ### Delete User
+# DELETE http://localhost:5000/api/users/{{userId}}

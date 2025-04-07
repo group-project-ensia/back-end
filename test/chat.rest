@@ -1,0 +1,39 @@
+### Create Chat
+# POST http://localhost:5000/api/chats
+# Content-Type: application/json
+
+# {
+#   "courseId": "{{courseId}}",
+#   "messages": [
+#     {
+#       "role": "user",
+#       "content": "What is integration?"
+#     },
+#     {
+#       "role": "assistant",
+#       "content": "Integration is the inverse of differentiation..."
+#     }
+#   ]
+# }
+
+### Get All Chats
+GET http://localhost:5000/api/chats
+
+# ### Get One Chat
+# GET http://localhost:5000/api/chats/{{chatId}}
+
+# ### Update Chat
+# PUT http://localhost:5000/api/chats/{{chatId}}
+# Content-Type: application/json
+
+# {
+#   "messages": [
+#     {
+#       "role": "user",
+#       "content": "Explain integral in simple terms"
+#     }
+#   ]
+# }
+
+# ### Delete Chat
+# DELETE http://localhost:5000/api/chats/{{chatId}}

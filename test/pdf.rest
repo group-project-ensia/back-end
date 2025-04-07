@@ -1,0 +1,26 @@
+# ### Upload PDF
+# POST http://localhost:5000/api/pdfs
+# Content-Type: application/json
+
+# {
+#   "title": "Integration Lecture",
+#   "url": "https://example.com/integration.pdf",
+#   "courseId": "{{courseId}}"
+# }
+
+### Get All PDFs
+GET http://localhost:5000/api/pdfs
+
+# ### Get One PDF
+# GET http://localhost:5000/api/pdfs/{{pdfId}}
+
+# ### Update PDF
+# PUT http://localhost:5000/api/pdfs/{{pdfId}}
+# Content-Type: application/json
+
+# {
+#   "title": "Updated PDF Title"
+# }
+
+# ### Delete PDF
+# DELETE http://localhost:5000/api/pdfs/{{pdfId}}
