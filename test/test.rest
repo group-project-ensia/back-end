@@ -1,0 +1,7 @@
+POST http://localhost:5000/api/courses/create
+Content-Type: application/json
+
+{
+  "title": "Mathematics 101",
+  "userId": "60d5ec49b3b0132b442e5c8d"  // replace with an actual user ID from your database
+}

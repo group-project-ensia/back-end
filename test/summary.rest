@@ -1,0 +1,25 @@
+# ### Create Summary
+# POST http://localhost:5000/api/summaries
+# Content-Type: application/json
+
+# {
+#   "courseId": "{{courseId}}",
+#   "content": "This is a summary of the integration chapter."
+# }
+
+### Get All Summaries
+GET http://localhost:5000/api/summaries
+
+# ### Get One Summary
+# GET http://localhost:5000/api/summaries/{{summaryId}}
+
+# ### Update Summary
+# PUT http://localhost:5000/api/summaries/{{summaryId}}
+# Content-Type: application/json
+
+# {
+#   "content": "Updated summary content"
+# }
+
+# ### Delete Summary
+# DELETE http://localhost:5000/api/summaries/{{summaryId}}

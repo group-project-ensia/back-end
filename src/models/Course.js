@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
 
 const courseSchema = new mongoose.Schema({
-  user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
   title: { type: String, required: true },
-  createdAt: { type: Date, default: Date.now },
-});
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  pdfs: [{ type: mongoose.Schema.Types.ObjectId, ref: 'PDF' }]
+}, { timestamps: true });
 
 module.exports = mongoose.model('Course', courseSchema);

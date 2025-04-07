@@ -1,15 +1,14 @@
 const mongoose = require('mongoose');
 
-const messageSchema = new mongoose.Schema({
-  sender: { type: String, enum: ['user', 'bot'], required: true },
-  text: { type: String, required: true },
-  timestamp: { type: Date, default: Date.now },
-});
-
 const chatSchema = new mongoose.Schema({
-  course: { type: mongoose.Schema.Types.ObjectId, ref: 'Course', required: true },
-  messages: [messageSchema],
-  createdAt: { type: Date, default: Date.now },
-});
+  courseId: { type: mongoose.Schema.Types.ObjectId, ref: 'Course' },
+  messages: [
+    {
+      sender: { type: String, enum: ['user', 'bot'] },
+      text: String,
+      timestamp: { type: Date, default: Date.now }
+    }
+  ]
+}, { timestamps: true });
 
 module.exports = mongoose.model('Chat', chatSchema);
