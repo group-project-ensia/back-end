@@ -5,7 +5,7 @@ Content-Type: application/json
 {
   "title": "Math",
   "description": "Math course content",
-  "userId": "67f39faafea03facb3398fb9"
+  "userId": "67f44b19f0db698b1023c18e"
 }
 
 ### Get All Courses

@@ -56,3 +56,26 @@ exports.deletePDF = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+
+// Get all PDFs for a specific course
+exports.getPDFsByCourse = async (req, res) => {
+  try {
+    const pdfs = await PDF.find({ courseId: req.params.courseId }).populate('courseId');
+    res.json(pdfs);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+
+// Search PDFs by title
+exports.searchPDFsByTitle = async (req, res) => {
+  try {
+    const titleQuery = req.query.title;
+    const pdfs = await PDF.find({ title: { $regex: titleQuery, $options: 'i' } });
+    res.json(pdfs);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+

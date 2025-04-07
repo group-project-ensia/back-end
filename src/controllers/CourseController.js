@@ -50,3 +50,14 @@ exports.deleteCourse = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+
+// Search Courses by title
+exports.searchCoursesByTitle = async (req, res) => {
+  try {
+    const titleQuery = req.query.title;
+    const courses = await Course.find({ title: { $regex: titleQuery, $options: 'i' } });
+    res.json(courses);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};

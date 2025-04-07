@@ -5,17 +5,17 @@ Content-Type: application/json
 {
   "title": "Integration Lecture",
   "url": "https://example.com/integration.pdf",
-  "courseId": "67f441cfc746e468826da885"
+  "courseId": "67f44b5cf0db698b1023c194"
 }
 
 ### Get All PDFs
 GET http://localhost:5000/api/pdf
 
 ### Get One PDF
-GET http://localhost:5000/api/pdf/67f443e3da9d45b3ddeeefd3
+GET http://localhost:5000/api/pdf/67f44b70f0db698b1023c196
 
 ### Update PDF
-PUT http://localhost:5000/api/pdf/67f443e3da9d45b3ddeeefd3
+PUT http://localhost:5000/api/pdf/67f44b70f0db698b1023c196
 Content-Type: application/json
 
 {
@@ -23,4 +23,15 @@ Content-Type: application/json
 }
 
 ### Delete PDF
-DELETE http://localhost:5000/api/pdf/67f443e3da9d45b3ddeeefd3
+DELETE http://localhost:5000/api/pdf/67f44b70f0db698b1023c196
+
+
+### Search PDFs by title
+GET http://localhost:5000/api/pdf/search?title=Math
+Content-Type: application/json
+
+###
+
+### Search Courses by title
+GET http://localhost:5000/api/courses/search?title=Math
+Content-Type: application/json
