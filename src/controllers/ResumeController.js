@@ -1,4 +1,4 @@
-const Resume = require('../models/resume');
+const Resume = require('../models/Resume');
 
 // Create
 exports.createResume = async (req, res) => {

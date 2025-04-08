@@ -1,31 +1,24 @@
 const express = require('express');
-const mongoose = require('mongoose');
-const dotenv = require('dotenv');
-
-dotenv.config();
-
+const app = express();
 const userRoutes = require('./routes/UserRoutes');
 const chatRoutes = require('./routes/ChatRoutes');
 const courseRoutes = require('./routes/courseRoutes');
 const pdfRoutes = require('./routes/PdfRoutes');
 const resumeRoutes = require('./routes/ResumeRoute');
 
-
-const app = express();
+// Middleware for parsing JSON bodies
 app.use(express.json());
 
-
-// Route bindings
+// Mount user routes at /api/users
 app.use('/api/users', userRoutes);
 app.use('/api/chats', chatRoutes);
 app.use('/api/courses', courseRoutes);
 app.use('/api/pdf', pdfRoutes);
 app.use('/api/resume', resumeRoutes);
 
-
 app.get('/', (req, res) => {
-    res.send('API is working');
-  });
+  res.send('API is working');
+});
 
 
 module.exports = app;

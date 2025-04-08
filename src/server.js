@@ -12,6 +12,10 @@ if (!MONGO_URI) {
   console.error('Missing MONGO_URI in .env file');
   process.exit(1);
 }
+app.use((req, res, next) => {
+  console.log(`Incoming ${req.method} request on ${req.url}`);
+  next();
+});
 
 mongoose.connect(MONGO_URI, {
   useNewUrlParser: true,
@@ -25,3 +29,4 @@ mongoose.connect(MONGO_URI, {
   console.error(' MongoDB connection error:', err.message);
   process.exit(1);
 });
+
