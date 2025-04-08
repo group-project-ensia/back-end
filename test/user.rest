@@ -10,16 +10,16 @@ Content-Type: application/json
 ### Get All Users
 GET http://localhost:5000/api/users
 
-# ### Get One User
-# GET http://localhost:5000/api/users/{{userId}}
+### Get One User
+GET http://localhost:5000/api/users/67f44b19f0db698b1023c18e
 
-# ### Update User
-# PUT http://localhost:5000/api/users/{{userId}}
-# Content-Type: application/json
+### Update User
+PUT http://localhost:5000/api/users/67f44b19f0db698b1023c18e
+Content-Type: application/json
 
-# {
-#   "name": "Nesrine B."
-# }
+{
+  "name": "Nesrine B."
+}
 
-# ### Delete User
-# DELETE http://localhost:5000/api/users/{{userId}}
+### Delete User
+DELETE http://localhost:5000/api/users/67f44b19f0db698b1023c18e
