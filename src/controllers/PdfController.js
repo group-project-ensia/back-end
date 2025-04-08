@@ -1,4 +1,4 @@
-const PDF = require('../models/pdf');
+const PDF = require('../models/Pdf');
 
 // Create
 exports.createPDF = async (req, res) => {

@@ -1,72 +1,84 @@
-const User = require('../models/user');
+const User = require('../models/User');
+const { validationResult } = require('express-validator');
+const jwt = require('jsonwebtoken');
 
-// Create
-exports.createUser = async (req, res) => {
-  try {
-    const user = await User.create(req.body);
-    res.status(201).json(user);
-  } catch (err) {
-    res.status(400).json({ error: err.message });
+exports.signup = async (req, res) => {
+  // Validate request data
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(422).json({ errors: errors.array() });
   }
-};
-
-// Read All
-exports.getUsers = async (req, res) => {
-  try {
-    const users = await User.find();
-    res.json(users);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-};
-
-// Read One
-exports.getUser = async (req, res) => {
-  try {
-    const user = await User.findById(req.params.id);
-    if (!user) return res.status(404).json({ error: 'User not found' });
-    res.json(user);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-};
-
-// Update
-exports.updateUser = async (req, res) => {
-  try {
-    const user = await User.findByIdAndUpdate(req.params.id, req.body, { new: true });
-    res.json(user);
-  } catch (err) {
-    res.status(400).json({ error: err.message });
-  }
-};
-
-// Delete
-exports.deleteUser = async (req, res) => {
-  try {
-    await User.findByIdAndDelete(req.params.id);
-    res.json({ message: 'User deleted' });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-};
-
-
-// Get User ID by Email
-exports.getUserIdByEmail = async (req, res) => {
-    try {
-      const { email } = req.params;  // Getting email from the request parameters
   
-      // Search for the user by email
-      const user = await User.findOne({ email });
+  const { email, password, confirmPassword, schoolLevel, speciality } = req.body;
   
-      if (!user) {
-        return res.status(404).json({ error: 'User not found' });
-      }
-  
-      // Return the user ID
-      res.json({ userId: user._id });
-    } catch (err) {
-      res.status(500).json({ error: err.message });
+  // Ensure passwords match
+  if (password !== confirmPassword) {
+    return res.status(400).json({ error: "Passwords do not match" });
+  }
+
+  try {
+    // Check if user already exists
+    let user = await User.findOne({ email });
+    if (user) {
+      return res.status(409).json({ error: "User already exists" });
     }
-  };
+    
+    // Create and save the new user; password will be hashed automatically
+    user = new User({ email, password, schoolLevel, speciality });
+    await user.save();
+    
+    // Generate a JWT token
+    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    
+    res.status(201).json({
+      token,
+      user: {
+        email: user.email,
+        schoolLevel: user.schoolLevel,
+        speciality: user.speciality,
+      },
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Server error" });
+  }
+};
+
+exports.login = async (req, res) => {
+  // Validate request data
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(422).json({ errors: errors.array() });
+  }
+  
+  const { email, password } = req.body;
+  
+  try {
+    // Find user by email
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(401).json({ error: "Invalid credentials" });
+    }
+    
+    // Compare the provided password with the stored hashed password
+    const isMatch = await user.comparePassword(password);
+    if (!isMatch) {
+      return res.status(401).json({ error: "Invalid credentials" });
+    }
+    
+    // Generate a JWT token upon successful login
+    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    
+    res.json({
+      token,
+      user: {
+        email: user.email,
+        schoolLevel: user.schoolLevel,
+        speciality: user.speciality,
+      },
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Server error" });
+  }
+};
