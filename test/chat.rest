@@ -39,6 +39,16 @@ Content-Type: application/json
 }
 
 
+##################################
+
+PUT http://localhost:5000/api/chats/67f45327ba79d73170e85102
+Content-Type: application/json
+
+{
+  "text": "Explain again please"
+}
+
+
 
 ### Delete Chat
 DELETE http://localhost:5000/api/chats/67f452feba79d73170e850fe
