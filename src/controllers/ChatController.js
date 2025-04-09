@@ -43,16 +43,21 @@ export const deleteChat = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
-// Update Chat: Append new user message, call Gemini, append bot message
+
 export const updateChat = async (req, res) => {
   try {
     const { id } = req.params;
-    const { text } = req.body;
+    
+    // Extract text, supporting both direct text and nested messages
+    const text = req.body.text || 
+                 (req.body.messages && req.body.messages[0] && req.body.messages[0].text);
 
-    // Create a new message object for the user's text
+    if (!text) {
+      return res.status(400).json({ error: 'No message text provided' });
+    }
+
     const newMessage = { sender: 'user', text };
 
-    // Update the chat with the new user message
     const chat = await Chat.findByIdAndUpdate(
       id,
       { $push: { messages: newMessage } },
@@ -61,22 +66,20 @@ export const updateChat = async (req, res) => {
 
     if (!chat) return res.status(404).json({ error: 'Chat not found' });
 
-    // Call the Gemini service to get the bot's response
-    const botResponse = await geminiService.generateResponse(text);
+    // Pass chat ID to maintain conversation context
+    const botResponse = await geminiService.generateResponse(id, text);
 
-    // Create a new message object for the bot's response
     const botMessage = { sender: 'bot', text: botResponse };
 
-    // Update the chat with the bot's message
     const updatedChat = await Chat.findByIdAndUpdate(
       id,
       { $push: { messages: botMessage } },
       { new: true }
     );
 
-    // Return the updated chat with both user and bot messages
     res.json(updatedChat);
   } catch (error) {
+    console.error('Update Chat Error:', error);
     res.status(500).json({ error: error.message });
   }
 };
