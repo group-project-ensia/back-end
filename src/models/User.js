@@ -6,6 +6,8 @@ const UserSchema = new mongoose.Schema({
   password: { type: String, required: true },
   schoolLevel: { type: String, required: true },
   speciality: { type: String, required: true },
+  resetPasswordToken: String,
+  resetPasswordExpires: Date,
 });
 
 // Pre-save hook to hash password when it is new or modified
