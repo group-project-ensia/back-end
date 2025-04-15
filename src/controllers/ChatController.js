@@ -1,5 +1,5 @@
 
-const Chat = require('../models/chat');
+const Chat = require('../models/Chat');
 const OllamaService = require('../services/ollamaService');  
 
 
