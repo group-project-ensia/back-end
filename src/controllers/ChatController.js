@@ -1,5 +1,6 @@
 import GeminiService from '../services/geminiServise.js';
 import Chat from '../models/chat.js';
+import fs from 'fs';
 
 const geminiService = new GeminiService();
 
@@ -81,5 +82,62 @@ export const updateChat = async (req, res) => {
   } catch (error) {
     console.error('Update Chat Error:', error);
     res.status(500).json({ error: error.message });
+  }
+};
+
+
+///// ask bot controller : 
+export const askBot = async (req, res) => {
+  try {
+    const { text, pdf } = req.body;
+
+    if (!text || !pdf) {
+      return res.status(400).json({ error: 'Text and PDF content are required' });
+    }
+
+    // Combine the request prompt with the provided text content
+    const fullPrompt = `${text}\n\nContent:\n${pdf}`;
+
+    const botResponse = await geminiService.generateResponse(null, fullPrompt);
+
+    res.json({ sender: 'bot', text: botResponse });
+  } catch (error) {
+    console.error('Bot Query Error:', error);
+    res.status(500).json({ error: error.message });
+  }
+};
+
+
+export const askBot_json = async (req, res) => {
+  const prompt = req.body.prompt; // ✅ FIXED HERE
+  try {
+    const response = await geminiService.generateResponse(null, prompt);
+
+    // Strip Markdown formatting if present
+    const cleaned = response
+      .replace(/```json/g, '')
+      .replace(/```/g, '')
+      .trim();
+
+    // Try to parse JSON
+    let quizData;
+    try {
+      quizData = JSON.parse(cleaned);
+    } catch (err) {
+      return res.status(500).json({
+        error: 'Failed to parse bot response as JSON',
+        details: err.message,
+        rawResponse: response
+      });
+    }
+
+    // Save to a real file
+    fs.writeFileSync('./quiz.json', JSON.stringify(quizData, null, 2));
+
+    // Respond to frontend
+    res.json({ message: 'Quiz saved successfully!', quiz: quizData });
+
+  } catch (error) {
+    res.status(500).json({ error: 'Something went wrong', details: error.message });
   }
 };
