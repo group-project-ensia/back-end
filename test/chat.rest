@@ -5,14 +5,6 @@ Content-Type: application/json
 {
   "courseId": "67f44b53f0db698b1023c192",
   "messages": [
-    {
-      "sender": "user",
-      "text": "What is integration?"
-    },
-    {
-      "sender": "bot",
-      "text": "Integration is the inverse of differentiation..."
-    }
   ]
 }
 
@@ -22,20 +14,17 @@ Content-Type: application/json
 GET http://localhost:5000/api/chats
 
 ### Get One Chat
-GET http://localhost:5000/api/chats/67f45327ba79d73170e85102
+GET http://localhost:5000/api/chats/67f44b53f0db698b1023c192
 
-### Update Chat (Append a message)
-### Append new message to Chat
-PUT http://localhost:5000/api/chats/67f45327ba79d73170e85102
+
+# add a message : 
+##################################
+
+PUT http://localhost:5000/api/chats/67f69c8345d306d2dfa97668
 Content-Type: application/json
 
 {
-  "messages": [
-    {
-      "sender": "user",
-      "text": "Explain again please"
-    }
-  ]
+  "text": "can u explain more  "
 }
 
 
