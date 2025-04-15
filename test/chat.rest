@@ -8,10 +8,10 @@ Content-Type: application/json
   ]
 }
 
-
-
 ### Get All Chats
 GET http://localhost:5000/api/chats
+
+ 
 
 ### Get One Chat
 GET http://localhost:5000/api/chats/67f44b53f0db698b1023c192
@@ -24,7 +24,7 @@ PUT http://localhost:5000/api/chats/67f69c8345d306d2dfa97668
 Content-Type: application/json
 
 {
-  "text": "can u explain more  "
+  "text": " u wierd "
 }
 
 
