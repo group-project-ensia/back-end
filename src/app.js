@@ -9,6 +9,9 @@ const resumeRoutes = require('./routes/ResumeRoute');
 // Middleware for parsing JSON bodies
 app.use(express.json());
 
+const cors = require('cors');
+app.use(cors());
+
 // Mount user routes at /api/users
 app.use('/api/users', userRoutes);
 app.use('/api/chats', chatRoutes);
