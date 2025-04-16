@@ -7,12 +7,41 @@ const geminiService = new GeminiService();
 // Create
 export const createChat = async (req, res) => {
   try {
-    const chat = await Chat.create(req.body);
-    res.status(201).json(chat);
+    const { courseId, messages } = req.body;
+
+    // Step 1: Create the chat with empty messages
+    const chat = await Chat.create({
+      courseId,
+      messages: []
+    });
+
+    // Step 2: If there's a first message, push it
+    if (messages && messages.length > 0) {
+      const first = messages[0];
+
+      const newMessage = {
+        sender: first.role || first.sender, // fallback if it comes with "sender"
+        text: first.content || first.text
+      };
+
+      await Chat.findByIdAndUpdate(
+        chat._id,
+        { $push: { messages: newMessage } },
+        { new: true }
+      );
+    }
+
+    // Step 3: Return the final chat (with the first message)
+    const updatedChat = await Chat.findById(chat._id);
+    res.status(201).json(updatedChat);
+
   } catch (err) {
+    console.error('Create Chat Error:', err);
     res.status(400).json({ error: err.message });
   }
 };
+
+
 
 // Get All Chats
 export const getChats = async (req, res) => {

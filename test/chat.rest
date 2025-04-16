@@ -5,8 +5,10 @@ Content-Type: application/json
 {
   "courseId": "67f44b53f0db698b1023c192",
   "messages": [
+    { "role": "user", "content": "You are a helpful assistant..." }
   ]
 }
+
 
 ### Get All Chats
 GET http://localhost:5000/api/chats
@@ -14,17 +16,18 @@ GET http://localhost:5000/api/chats
  
 
 ### Get One Chat
-GET http://localhost:5000/api/chats/67f44b53f0db698b1023c192
+GET http://localhost:5000/api/chats/67ff0357c68392a7e3562678
+
 
 
 # add a message : 
 ##################################
 
-PUT http://localhost:5000/api/chats/67f69c8345d306d2dfa97668
+PUT http://localhost:5000/api/chats/67ff0357c68392a7e3562678
 Content-Type: application/json
 
 {
-  "text": " u wierd "
+  "text": "why this is not working :( "
 }
 
 
