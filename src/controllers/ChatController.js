@@ -2,7 +2,9 @@ import GeminiService from '../services/geminiServise.js';
 import Chat from '../models/chat.js';
 import fs from 'fs';
 
+
 const geminiService = new GeminiService();
+
 
 // Create
 export const createChat = async (req, res) => {
