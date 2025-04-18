@@ -88,28 +88,44 @@ export const updateChat = async (req, res) => {
       return res.status(400).json({ error: 'No message text provided' });
     }
 
+    // Fetch existing chat to get full conversation context
+    const existingChat = await Chat.findById(id);
+    if (!existingChat) return res.status(404).json({ error: 'Chat not found' });
+
+    // Prepare context for Gemini by extracting previous messages
+    const conversationContext = existingChat.messages.map(msg => ({
+      role: msg.sender === 'user' ? 'user' : 'model',
+      parts: [{ text: msg.text }]
+    }));
+
+    // Add current user message
     const newMessage = { sender: 'user', text };
 
-    const chat = await Chat.findByIdAndUpdate(
+    // Update chat with new user message
+    const updatedChat = await Chat.findByIdAndUpdate(
       id,
       { $push: { messages: newMessage } },
       { new: true }
     );
 
-    if (!chat) return res.status(404).json({ error: 'Chat not found' });
+    // Generate bot response with full conversation context
+    const botResponse = await geminiService.generateResponse(
+      id, 
+      text, 
+      conversationContext
+    );
 
-    // Pass chat ID to maintain conversation context
-    const botResponse = await geminiService.generateResponse(id, text);
-
+    // Create bot message
     const botMessage = { sender: 'bot', text: botResponse };
 
-    const updatedChat = await Chat.findByIdAndUpdate(
+    // Add bot response to chat
+    const finalChat = await Chat.findByIdAndUpdate(
       id,
       { $push: { messages: botMessage } },
       { new: true }
     );
 
-    res.json(updatedChat);
+    res.json(finalChat);
   } catch (error) {
     console.error('Update Chat Error:', error);
     res.status(500).json({ error: error.message });
