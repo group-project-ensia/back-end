@@ -14,17 +14,17 @@ GET http://localhost:5000/api/chats
  
 
 ### Get One Chat
-GET http://localhost:5000/api/chats/67f44b53f0db698b1023c192
+GET http://localhost:5000/api/chats/6802586f964dbeda1bbc9023
 
 
 # add a message : 
 ##################################
 
-PUT http://localhost:5000/api/chats/67f69c8345d306d2dfa97668
+PUT http://localhost:5000/api/chats/6802586f964dbeda1bbc9023
 Content-Type: application/json
 
 {
-  "text": " u wierd "
+  "text": "thanks"
 }
 
 
@@ -70,4 +70,15 @@ Content-Type: application/json
   "pdf": "In the early 2000s, deep learning faced a period often referred to as its dark age. During this time, Support Vector Machines (SVMs) rose to prominence and dominated the field of machine learning. SVMs offered strong performance on various classification tasks, particularly when combined with kernel methods, which allowed them to handle non-linear data effectively. Their theoretical elegance, solid generalization capabilities, and relatively low computational requirements made them highly attractive to researchers and practitioners.\n\nMeanwhile, neural networks were struggling. They required large datasets and significant computational power—both of which were limited at the time. Neural networks were also prone to overfitting and hard to train, especially deep architectures due to issues like vanishing gradients. As a result, the research community largely abandoned deep learning in favor of SVMs and other statistical learning methods, believing that neural networks had reached their limits.\n\nThis shift in focus stalled deep learning research for nearly a decade. It wasn’t until breakthroughs in algorithms, the availability of large datasets, and the use of GPUs that deep learning re-emerged. The success of deep neural networks in image and speech recognition around 2012 marked the end of this 'dark age,' proving their true potential and shifting the spotlight away from SVMs."
 }
 
+## api generate flashcards : 
 
+
+POST http://localhost:5000/api/chats/ask-bot
+Content-Type: application/json
+
+{
+  "text":"Based on the following text, generate 10 flashcards. Each flashcard should contain a question and an answer. Return the result in a clean JSON array format like this: { \"question\": \"What is ...?\", \"answer\": \"Correct answer\" }, ... (10 flashcards)",
+  "pdf": "In the early 2000s, deep learning faced a period often referred to as its dark age. During this time, Support Vector Machines (SVMs) rose to prominence and dominated the field of machine learning. SVMs offered strong performance on various classification tasks, particularly when combined with kernel methods, which allowed them to handle non-linear data effectively. Their theoretical elegance, solid generalization capabilities, and relatively low computational requirements made them highly attractive to researchers and practitioners.\n\nMeanwhile, neural networks were struggling. They required large datasets and significant computational power—both of which were limited at the time. Neural networks were also prone to overfitting and hard to train, especially deep architectures due to issues like vanishing gradients. As a result, the research community largely abandoned deep learning in favor of SVMs and other statistical learning methods, believing that neural networks had reached their limits.\n\nThis shift in focus stalled deep learning research for nearly a decade. It wasn’t until breakthroughs in algorithms, the availability of large datasets, and the use of GPUs that deep learning re-emerged. The success of deep neural networks in image and speech recognition around 2012 marked the end of this 'dark age,' proving their true potential and shifting the spotlight away from SVMs."
+}
+
+###############################

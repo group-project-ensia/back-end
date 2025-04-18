@@ -13,6 +13,8 @@ ${extractedText}
 
 Now, feel free to ask me any questions related to the above text.`;
 
+console.log(prompt);
+
     const response = await axios.post(
       'http://localhost:5000/api/chats',
       {
