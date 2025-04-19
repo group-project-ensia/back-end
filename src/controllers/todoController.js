@@ -80,3 +80,24 @@ exports.deleteTodo = async (req, res) => {
     res.status(400).json({ error: err.message });
   }
 };
+
+// Get todos by user and due date (for calendar)
+exports.getTodosForCalendar = async (req, res) => {
+    try {
+      const { userId } = req.params;
+      // Get all todos of a user and populate the dueDate field
+      const todos = await Todo.find({ userId: userId });
+      
+      // Format the todos to send only the necessary data
+      const formattedTodos = todos.map(todo => ({
+        title: todo.title,
+        description: todo.description,
+        dueDate: todo.dueDate,
+        isDone: todo.isDone,
+      }));
+      
+      res.json(formattedTodos);
+    } catch (err) {
+      res.status(500).json({ error: err.message });
+    }
+  };
