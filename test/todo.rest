@@ -21,6 +21,11 @@ GET http://localhost:5000/api/todos/67f44b19f0db698b1023c18e
 GET http://localhost:5000/api/todos/67f44b19f0db698b1023c18e/done
 
 ###
+# handling the callender things 
+### Get todos for calendar by user ID
+GET http://localhost:5000/api/todos/calendar/67f44b19f0db698b1023c18e
+
+###################################
 
 ### Get doing todos for a specific user
 GET http://localhost:5000/api/todos/67f44b19f0db698b1023c18e/doing
