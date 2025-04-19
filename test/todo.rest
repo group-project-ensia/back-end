@@ -1,0 +1,71 @@
+### Create a new Todo
+POST http://localhost:5000/api/todos
+Content-Type: application/json
+
+{
+  "userId": "67f44b19f0db698b1023c18e",
+  "title": "Learn Express MVC",
+  "description": "Study how MVC pattern works in Express.js",
+  "status": "doing",
+  "isDone": false
+}
+
+###
+
+### Get all todos for a specific user
+GET http://localhost:5000/api/todos/67f44b19f0db698b1023c18e
+
+###
+
+### Get done todos for a specific user
+GET http://localhost:5000/api/todos/67f44b19f0db698b1023c18e/done
+
+###
+
+### Get doing todos for a specific user
+GET http://localhost:5000/api/todos/67f44b19f0db698b1023c18e/doing
+
+###
+
+### Update a specific todo 
+PUT http://localhost:5000/api/todos/6804116c262e76b8fe87617a
+Content-Type: application/json
+
+{
+  "status": "done",
+  "isDone": true
+}
+
+### Update the title of a specific todo 
+PUT http://localhost:5000/api/todos/6804116c262e76b8fe87617a
+Content-Type: application/json
+
+{
+  "title": "New Updated Title"
+}
+
+
+
+### Update the description of a specific todo 
+PUT http://localhost:5000/api/todos/6804116c262e76b8fe87617a
+Content-Type: application/json
+
+{
+  "description": "This is the new detailed description for the task."
+}
+
+
+### Update the due date of a specific todo 
+PUT http://localhost:5000/api/todos/6804116c262e76b8fe87617a
+Content-Type: application/json
+
+{
+  "dueTime": "20/04/2022"
+}
+
+#####################
+
+## Delete a specific todo 
+DELETE http://localhost:5000/api/todos/6804124d262e76b8fe87617d
+
+
