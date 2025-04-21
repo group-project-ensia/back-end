@@ -7,7 +7,9 @@ const pdfRoutes = require('./routes/PdfRoutes');
 const resumeRoutes = require('./routes/ResumeRoute');
 const fileRoutes = require('./routes/FileRoutes');
 const todoRoutes = require('./routes/todo.js');
+const flashcardRoutes = require('./routes/FlashcardRoutes');
 
+app.use('/api/flashcards', flashcardRoutes);
 // Middleware for parsing JSON bodies
 app.use(express.json());
 
