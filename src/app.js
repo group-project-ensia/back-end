@@ -14,6 +14,8 @@ app.use('/api/flashcards', flashcardRoutes);
 app.use(express.json());
 
 const cors = require('cors');
+const morgan  = require('morgan');
+app.use(morgan('dev')); 
 app.use(cors());
 
 // Mount user routes at /api/users
