@@ -14,12 +14,20 @@ app.use('/api/flashcards', flashcardRoutes);
 app.use(express.json());
 
 const cors = require('cors');
+const morgan  = require('morgan');
+app.use(morgan('dev')); 
 app.use(cors());
+
+const lectureRoutes = require('./routes/LectureRoutes');
+
+
+
+app.use('/api/users/:userId/courses/:courseId/lectures', lectureRoutes);
 
 // Mount user routes at /api/users
 app.use('/api/users', userRoutes);
 app.use('/api/chats', chatRoutes);
-app.use('/api/courses', courseRoutes);
+app.use('/api/users/:userId/courses', courseRoutes);
 app.use('/api/pdf', pdfRoutes);
 app.use('/api/resume', resumeRoutes);
 app.use('/api/files', fileRoutes);

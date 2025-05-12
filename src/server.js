@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const app = require('./app');
 
+
 // Load environment variables from .env file
 dotenv.config();
 

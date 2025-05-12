@@ -11,12 +11,8 @@ const todoSchema = new mongoose.Schema({
     required: true
   },
   dueDate: { type: Date, default: Date.now },
-  description: String,
-  status: {
-    type: String,
-    enum: ['doing', 'done'],
-    default: 'doing'
-  },
+
+
   isDone: {
     type: Boolean,
     default: false
