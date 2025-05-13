@@ -37,4 +37,7 @@ router
   .put(upload.single('pdf'), lectureCtrl.updateLecture)
   .delete(lectureCtrl.deleteLecture);
 
+// Summarize Lecture PDF
+router.post('/:lectureId/summarize', lectureCtrl.summarizeLecture);
+
 module.exports = router;

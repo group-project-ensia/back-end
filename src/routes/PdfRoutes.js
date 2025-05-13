@@ -9,5 +9,6 @@ router.put('/:id', pdfController.updatePDF);
 router.delete('/:id', pdfController.deletePDF);
 router.get('/course/:courseId', pdfController.getPDFsByCourse);
 router.get('/search', pdfController.searchPDFsByTitle);
+router.post('/:id/summarize', pdfController.summarizePDF);
 
 module.exports = router;
