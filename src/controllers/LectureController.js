@@ -241,3 +241,43 @@ Create a comprehensive and detailed summary that follows these guidelines:
     res.status(500).json({ error: err.message || 'Failed to summarize PDF' });
   }
 };
+
+
+
+
+// Get Lecture Context (short summary)
+exports.getLectureContext = async (req, res) => {
+  try {
+    const { userId, courseId, lectureId } = req.params;
+    console.log(`Fetching context for lecture ID: ${lectureId}`);
+
+    // Find the user
+    const user = await User.findById(userId);
+    if (!user) {
+      console.log(`User not found with ID: ${userId}`);
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    // Find the course
+    const course = user.courses.id(courseId);
+    if (!course) {
+      console.log(`Course not found with ID: ${courseId}`);
+      return res.status(404).json({ error: 'Course not found' });
+    }
+
+    // Find the lecture
+    const lecture = course.lectures.id(lectureId);
+    if (!lecture) {
+      console.log(`Lecture not found with ID: ${lectureId}`);
+      return res.status(404).json({ error: 'Lecture not found' });
+    }
+
+    // Return the context field
+    console.log(`Returning context for lecture: ${lecture.title}`);
+    res.json({ context: lecture.context });
+
+  } catch (err) {
+    console.error('Error fetching lecture context:', err);
+    res.status(500).json({ error: 'Failed to fetch lecture context' });
+  }
+};

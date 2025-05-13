@@ -23,3 +23,8 @@ Content-Type: application/json
 
 ### Delete Summary
 DELETE http://localhost:5000/api/resume/67f44444da9d45b3ddeeefdd
+
+
+### Get lecture context summary (short summary stored in `lecture.context`)
+GET http://localhost:5000/api/users/681e66a9a1f352628d8ee50a/courses/68231fefd0483d35afc6c3e2/lectures/6823468bdaa7d6ba96d7b110/context
+Content-Type: application/json

@@ -3,8 +3,22 @@ const axios = require('axios');
 async function runTest() {
   try {
     const difficulty_level = "hard";
-    const extractedText = "Artificial Neural Networks (ANNs) are computer systems inspired by the human brain. They consist of layers of nodes (neurons) that process information through connections with adjustable weights. An ANN typically has an input layer, one or more hidden layers, and an output layer. These networks are trained on data, learning patterns by adjusting weights to minimize prediction errors. ANNs are used in tasks like image recognition, speech processing, and language translation. They are especially useful when working with large, complex datasets. Overall, ANNs are a key part of modern artificial intelligence and deep learning applications.";
-
+        
+           const lectureID = "6823468bdaa7d6ba96d7b110";
+           const courseID = "68231fefd0483d35afc6c3e2";
+           const userID="681e66a9a1f352628d8ee50a";
+           // 1. Call the lecture context API
+           const contextResponse = await axios.get(
+             `http://localhost:5000/api/users/${userID}/courses/${courseID}/lectures/${lectureID}/context`,
+             {
+               headers: {
+                 'Content-Type': 'application/json',
+               },
+             }
+           );
+           
+    
+        const extractedText = contextResponse.data.context;
     const prompt = `Based on the following text, generate 5 multiple-choice quiz questions with a ${difficulty_level}. Each question should have 4 choices. Put the correct answer as the first choice. Return the result in a clean JSON array format like this: {  \"question\": \"What is ...?\",    \"choices\": [\"Correct answer\", \"Wrong choice 1\", \"Wrong choice 2\", \"Wrong choice 3\"]  },  ... (10 questions)\n]\n`;
 
     const QuizRes = await axios.post(

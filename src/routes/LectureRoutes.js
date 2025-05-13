@@ -4,6 +4,7 @@ const multer     = require('multer');
 const path       = require('path');
 const router     = express.Router({ mergeParams: true });
 const lectureCtrl = require('../controllers/LectureController');
+const lectureController = require('../controllers/LectureController');
 
 // configure multer to store uploaded PDFs under /uploads/pdfs
 const storage = multer.diskStorage({
@@ -39,5 +40,10 @@ router
 
 // Summarize Lecture PDF
 router.post('/:lectureId/summarize', lectureCtrl.summarizeLecture);
+
+router.get(
+  '/:lectureId/context',
+  lectureController.getLectureContext
+);
 
 module.exports = router;

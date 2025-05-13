@@ -2,8 +2,20 @@ const axios = require('axios');
 
 async function runTest() {
   try {
-    const extractedText = "In the early 2000s, deep learning faced a period often referred to as its dark age. During this time, Support Vector Machines (SVMs) rose to prominence and dominated the field of machine learning. ...";
+       const lectureID = "6823468bdaa7d6ba96d7b110";
+       const courseID = "68231fefd0483d35afc6c3e2";
+       const userID="681e66a9a1f352628d8ee50a";
+       // 1. Call the lecture context API
+       const contextResponse = await axios.get(
+         `http://localhost:5000/api/users/${userID}/courses/${courseID}/lectures/${lectureID}/context`,
+         {
+           headers: {
+             'Content-Type': 'application/json',
+           },
+         }
+       );
 
+    const extractedText = contextResponse.data.context;
     const prompt = `Based on the following text, generate 10 flashcards. Each flashcard should contain a question and an answer. Return the result in a clean JSON array format like this: { \"question\": \"What is ...?\", \"answer\": \"Correct answer\" }, ... (10 flashcards)`;
 
     const QuizRes = await axios.post(
