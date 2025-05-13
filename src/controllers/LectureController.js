@@ -6,7 +6,7 @@ const fs = require('fs').promises;
 const path = require('path');
 
 const groq = new Groq({
-  apiKey: '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'
+  apiKey: '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' // Replace with your new API key
 });
 
 exports.getLectures = async (req, res) => {
@@ -143,8 +143,6 @@ exports.summarizeLecture = async (req, res) => {
     console.log('PDF path:', lecture.pdf);
 
     // Get PDF file path
-    // Note: lecture.pdf might be a relative path like "/pdfs/file.pdf"
-    // We need to convert it to an absolute path
     let pdfPath = lecture.pdf;
     
     // If the path is relative, make it absolute
@@ -165,14 +163,41 @@ exports.summarizeLecture = async (req, res) => {
         return res.status(400).json({ error: 'Could not extract content from PDF' });
       }
 
-      console.log('Sending content to Groq API for LaTeX-formatted summarization');
-      const completion = await groq.chat.completions.create({
+      // Step 1: Generate a short summary for context field (< 100 words)
+      console.log('Generating short summary for context field');
+      const contextSummaryCompletion = await groq.chat.completions.create({
+        model: "llama-3.3-70b-versatile",
+        messages: [
+          {
+            role: "system",
+            content: "You are a helpful assistant that creates very concise summaries of academic documents. Provide a brief, clear summary in less than 100 words that captures the essential points."
+          },
+          {
+            role: "user",
+            content: `Please summarize this PDF content in less than 100 words: ${pdfContent}`
+          }
+        ],
+      });
+      
+      const contextSummary = contextSummaryCompletion.choices[0]?.message?.content;
+      if (!contextSummary) {
+        console.log('No context summary received from Groq API');
+        return res.status(500).json({ error: 'Failed to generate context summary' });
+      }
+      
+      // Store the short summary in the context field
+      lecture.context = contextSummary;
+      console.log('Short summary saved to context field');
+
+      // Step 2: Generate detailed summary for summary field (no size limitation)
+      console.log('Generating detailed summary for summary field');
+      const summaryCompletion = await groq.chat.completions.create({
         model: "llama-3.3-70b-versatile",
         messages: [
           {
             role: "system",
             content: `You are a helpful assistant that summarizes academic PDF documents using proper LaTeX formatting. 
-Create a well-structured summary that follows these guidelines:
+Create a comprehensive and detailed summary that follows these guidelines:
 
 1. Use proper LaTeX document structure with \\section{}, \\subsection{}, and other LaTeX environments
 2. Start with a \\section{Summary} heading
@@ -182,40 +207,31 @@ Create a well-structured summary that follows these guidelines:
 6. Structure the document with clear sections for Introduction, Key Concepts, and Conclusions
 7. If mathematical equations are present, use proper LaTeX notation
 8. DO NOT include \\documentclass or \\begin{document} tags - just the content
-
-IMPORTANT: Generate pure LaTeX that follows the structure:
-\\section{Summary}
-Brief overview...
-
-\\section{Key Concepts}
-\\begin{enumerate}
-\\item First concept: Description
-\\item Second concept: Description
-\\end{enumerate}
-
-\\section{Conclusions}
-Final thoughts...`
+9. Provide a detailed and comprehensive summary without size limitations`
           },
           {
             role: "user",
-            content: `Please summarize this PDF content using proper LaTeX formatting as specified: ${pdfContent}`
+            content: `Please provide a detailed and comprehensive summary of this PDF content using proper LaTeX formatting as specified: ${pdfContent}`
           }
         ],
       });
 
-      const summary = completion.choices[0]?.message?.content;
+      const summary = summaryCompletion.choices[0]?.message?.content;
       if (!summary) {
         console.log('No summary received from Groq API');
         return res.status(500).json({ error: 'Failed to generate summary' });
       }
 
-      console.log('Successfully generated summary');
-      
-      // Update lecture with summary
+      // Store the detailed summary in the summary field
       lecture.summary = summary;
       await user.save();
-
-      res.json({ summary });
+      console.log('Both summaries generated and saved successfully');
+      
+      // Return both summaries to the frontend
+      res.json({ 
+        contextSummary, 
+        summary
+      });
     } catch (err) {
       console.error('Error processing PDF file:', err);
       return res.status(500).json({ error: 'Error processing PDF file: ' + err.message });

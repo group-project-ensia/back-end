@@ -22,6 +22,7 @@ const LectureSchema = new mongoose.Schema(
     pdf:        { type: String, required: true, trim: true },
     chats:      [ChatMessageSchema],   // each chat now has its own _id
     summary:    { type: String, default: '' },
+    context:    { type: String, default: '' },  // Added context field for short summary
     flashcards: [FlashcardSchema],     // each flashcard now has its own _id
   },
   { timestamps: true }                // adds createdAt / updatedAt
