@@ -38,3 +38,35 @@ This project follows the **MVC pattern**:
 - **Services:** Manage communication with external APIs (AI models, etc.).
 -
 
+
+---
+
+
+## 🚀 Installation
+
+1. **Clone the repository**
+```bash
+git clone https://github.com/your-username/your-repo.git
+cd your-repo
+npm install
+```
+
+2. **Install dependencies**
+```bash
+npm install
+```
+
+3. **Set up environment variables**
+```bash
+PORT=5000
+MONGO_URI=your_mongodb_connection_string
+OPENAI_API_KEY=your_openai_api_key  # or Gemini/Ollama config
+
+```
+
+3. **Start the development server**
+```bash
+npm run dev
+
+```
+
